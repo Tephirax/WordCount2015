@@ -1,9 +1,5 @@
 package com.generationminusone.wordcount2015;
 
-/**
- * Created by Rob on 14/03/2015.
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+//import android.net.Uri;
+//import android.content.ContentValues;
+//import android.database.Cursor;
+//import android.widget.EditText;
+//import android.widget.Toast;
 
 public class Main_Fragment extends Fragment {
 
@@ -52,5 +53,4 @@ public class Main_Fragment extends Fragment {
 
         return rootView;
     }
-
 }
