@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,6 +30,12 @@ public class Prof_List_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_prof_list, null);
         Log.d("Rob Debug", "Arrived in Prof_List_Fragment; inflating view");
+
+        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+        setHasOptionsMenu(true);
 
         idView = (TextView) rootView.findViewById(R.id.profile_ID);
         nameBox = (EditText) rootView.findViewById(R.id.profile_name);
@@ -57,6 +67,11 @@ public class Prof_List_Fragment extends Fragment {
 
         return rootView;
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.prof_list_actionbar_actions, menu);
     }
 
     public void newProfile (View view) {

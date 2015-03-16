@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.generationminusone.wordcount2015.Prof_List_Fragment">
+    tools:context="com.generationminusone.wordcount2015.Proj_List_Fragment">
 
     <TextView android:layout_width="match_parent" android:layout_height="match_parent"
         android:text="Project List Placeholder" />
