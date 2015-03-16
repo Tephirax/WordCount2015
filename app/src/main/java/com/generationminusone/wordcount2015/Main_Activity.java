@@ -13,10 +13,6 @@ import android.view.MenuItem;
 
 public class Main_Activity extends ActionBarActivity {
 
-    Fragment frag;
-    FragmentManager fragManager;
-    FragmentTransaction fragTransaction;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,69 +26,61 @@ public class Main_Activity extends ActionBarActivity {
     }
 //
 //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        // Inflate the menu items for use in the action bar
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.main_actionbar_actions, menu);
-//        return super.onCreateOptionsMenu(menu);
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                fragManager = getSupportFragmentManager();
+//                if (fragManager.getBackStackEntryCount() > 0) {
+//                    fragManager.popBackStack();
+//                }
+//                return true;
+//            case R.id.action_search:
+//                frag = new Prof_List_Fragment();
+//                fragTransaction = getSupportFragmentManager().beginTransaction();
+//                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+//                fragTransaction.replace(R.id.container, frag);
+//                fragTransaction.addToBackStack(null);
+//                fragTransaction.commit();
+//                return true;
+//            case R.id.action_projects:
+//                frag = new Proj_List_Fragment();
+//                fragTransaction = getSupportFragmentManager().beginTransaction();
+//                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+//                fragTransaction.replace(R.id.container, frag);
+//                fragTransaction.addToBackStack(null);
+//                fragTransaction.commit();
+//            case R.id.action_profiles:
+//                frag = new Prof_List_Fragment();
+//                fragTransaction = getSupportFragmentManager().beginTransaction();
+//                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+//                fragTransaction.replace(R.id.container, frag);
+//                fragTransaction.addToBackStack(null);
+//                fragTransaction.commit();
+//                return true;
+//            case R.id.action_settings: /* TODO: Need to create a settings screen and add link to it here */
+//                frag = new Prof_List_Fragment();
+//                fragTransaction = getSupportFragmentManager().beginTransaction();
+//                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+//                fragTransaction.replace(R.id.container, frag);
+//                fragTransaction.addToBackStack(null);
+//                fragTransaction.commit();
+//                return true;
+//            case R.id.action_help:
+//                Log.d("Rob Debug", "About to call Intent to Help");
+//                Intent l = new Intent(this, Help_Activity.class);
+//                startActivity(l);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
 //    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                fragManager = getSupportFragmentManager();
-                if (fragManager.getBackStackEntryCount() > 0) {
-                    fragManager.popBackStack();
-                }
-                return true;
-            case R.id.action_search:
-                frag = new Prof_List_Fragment();
-                fragTransaction = getSupportFragmentManager().beginTransaction();
-                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
-                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
-                fragTransaction.replace(R.id.container, frag);
-                fragTransaction.addToBackStack(null);
-                fragTransaction.commit();
-                return true;
-            case R.id.action_projects:
-                frag = new Proj_List_Fragment();
-                fragTransaction = getSupportFragmentManager().beginTransaction();
-                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
-                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
-                fragTransaction.replace(R.id.container, frag);
-                fragTransaction.addToBackStack(null);
-                fragTransaction.commit();
-            case R.id.action_profiles:
-                frag = new Prof_List_Fragment();
-                fragTransaction = getSupportFragmentManager().beginTransaction();
-                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
-                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
-                fragTransaction.replace(R.id.container, frag);
-                fragTransaction.addToBackStack(null);
-                fragTransaction.commit();
-                return true;
-            case R.id.action_settings: /* TODO: Need to create a settings screen and add link to it here */
-                frag = new Prof_List_Fragment();
-                fragTransaction = getSupportFragmentManager().beginTransaction();
-                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
-                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
-                fragTransaction.replace(R.id.container, frag);
-                fragTransaction.addToBackStack(null);
-                fragTransaction.commit();
-                return true;
-            case R.id.action_help:
-                Log.d("Rob Debug", "About to call Intent to Help");
-                Intent l = new Intent(this, Help_Activity.class);
-                startActivity(l);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

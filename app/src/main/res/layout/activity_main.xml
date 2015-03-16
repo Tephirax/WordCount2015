@@ -1,4 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".MainActivity" tools:ignore="MergeRootFrame" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:ignore="MergeRootFrame">
+
+    <FrameLayout android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00DFAA"
+    />
+    <FrameLayout android:id="@+id/xpContainer"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#AACCAA"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
