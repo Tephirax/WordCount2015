@@ -45,6 +45,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
         onCreate(db); /* TODO Need to update to allow db updates without destroying data (ALTER statements?)*/
     }
 
+    public Cursor fetchAllProfiles(){
+        String[] projection = { KEY_ID, KEY_NAME, KEY_RANKNUM };
+
+        Cursor cursor = myCR.query(MyContentProvider.CONTENT_URI_PROFILE,
+                projection, null, null, null);
+
+        return cursor;
+    }
+
     public void addProfile(Prof_Handler profile) {
 
         ContentValues values = new ContentValues();

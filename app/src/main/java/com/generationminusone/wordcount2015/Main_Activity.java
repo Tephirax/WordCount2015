@@ -13,10 +13,15 @@ import android.view.MenuItem;
 
 public class Main_Activity extends ActionBarActivity {
 
+    private MyDBHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHandler = new MyDBHandler(this, null, null, 1);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new Main_Fragment())

@@ -3,7 +3,11 @@
     android:layout_height="match_parent"
     tools:context="com.generationminusone.wordcount2015.Proj_List_Fragment">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="Project List Placeholder" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/proj_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        />
 
 </FrameLayout>
