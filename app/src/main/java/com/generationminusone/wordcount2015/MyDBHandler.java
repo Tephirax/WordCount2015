@@ -47,10 +47,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public Cursor fetchAllProfiles(){
         String[] projection = { KEY_ID, KEY_NAME, KEY_RANKNUM };
-
         Cursor cursor = myCR.query(MyContentProvider.CONTENT_URI_PROFILE,
                 projection, null, null, null);
-
         return cursor;
     }
 

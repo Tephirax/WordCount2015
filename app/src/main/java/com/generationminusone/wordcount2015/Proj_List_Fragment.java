@@ -30,11 +30,11 @@ public class Proj_List_Fragment extends Fragment {
 
     RecyclerView projRecyclerView;
     private int mEntityCounter = 0;
-    private List<BasicListAdapter.Entity> mData = new ArrayList<BasicListAdapter.Entity>();
+    private List<BasicListAdapter.Entity> mData;
     private BasicListAdapter mBasicListAdapter;
 
     //LinearLayoutManager layoutManager;
-    //Cursor projCursor;
+    Cursor projCursor;
     //CursorRecyclerAdapter projAdapter;
     //ArrayList<String> projects;
 
@@ -62,17 +62,6 @@ public class Proj_List_Fragment extends Fragment {
         projRecyclerView = (RecyclerView) rootView.findViewById(R.id.proj_recycler_view);
         projRecyclerView.setLayoutManager(getLayoutManager());
         projRecyclerView.setAdapter(getAdapter());
-
-        //projRecycler = (RecyclerView) rootView.findViewById(R.id.proj_recycler_view);
-
-        //layoutManager = new LinearLayoutManager(getActivity());
-        //projRecycler.setLayoutManager(layoutManager);
-        //projRecycler.setItemAnimator(new DefaultItemAnimator());
-
-        //Log.d("Rob Debug","About To Fetch Profiles");
-        //projCursor = dbHandler.fetchAllProfiles();
-
-        //projAdapter = new CursorRecyclerAdapter(projCursor);
 
         return rootView;
     }
@@ -107,28 +96,51 @@ public class Proj_List_Fragment extends Fragment {
 
     private RecyclerView.Adapter getAdapter() {
         mBasicListAdapter = new BasicListAdapter(getActivity());
-        addData(15, 0);
-
-        mBasicListAdapter.setData(new ArrayList<BasicListAdapter.Entity>(mData));
+        getProjects();
+        Log.d("Rob Debug","Finished getProjects() call");
         mBasicListAdapter.setOnItemClickListener(new BasicListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BasicListAdapter.Entity entity) {
                 System.out.println("BasicListActivity.onItemClick entity : " + entity);
+//                frag = new Proj_Info_Fragment();
+//                fragTransaction = getFragmentManager().beginTransaction();
+//                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+//                fragTransaction.replace(R.id.container, frag);
+//                fragTransaction.addToBackStack(null);
+//                fragTransaction.commit();
             }
         });
         return mBasicListAdapter;
     }
 
-    private void addData(int add, int del) {
-        for (int i = 0; i < del; ++i) {
-            int r = (int) (Math.random() * mData.size());
-            mData.remove(r);
-        }
+    private void getProjects() {
+        Log.d("Rob Debug","About To Fetch Profiles");
+        Cursor projCursor = dbHandler.fetchAllProfiles(); //TODO: Do I need to set up a Loader for this cursor?
 
-        for (int i = 0; i < add; ++i) {
-            int r = (int) (Math.random() * mData.size());
-            mData.add(r, new BasicListAdapter.Entity("Item " + (++mEntityCounter)));
+        Log.d("Rob Debug","About To Initialise ArrayList");
+        // Construct an ArrayList containing Entities for BasicListAdapter to display in the RecyclerView;
+        mData = new ArrayList<BasicListAdapter.Entity>();
+        Log.d("Rob Debug","About To Populate ArrayList");
+        // While there's another record in the cursor...;
+        while(projCursor.moveToNext()) {
+            // Add to the ArrayList an Entity named the value of KEY_NAME from the database table;
+            String entityTitle = projCursor.getString(1);
+            Log.d("Rob Debug","entityTitle = " + entityTitle);
+            mData.add(new BasicListAdapter.Entity(entityTitle));
         }
+        Log.d("Rob Debug","Finished Populating ArrayList");
+        // To delete items from ArrayList, use mData.remove;
+//        for (int i = 0; i < 15; ++i) {
+//            int r = (int) (Math.random() * mData.size());
+//            mData.remove(r);
+//        }
+
+        // To add items to ArrayList, use mData.add;
+//        for (int i = 0; i < 15; ++i) {
+//            int r = (int) (Math.random() * mData.size());
+//            mData.add(r, new BasicListAdapter.Entity("Item " + (++mEntityCounter)));
+//        }
 
         mBasicListAdapter.setData(new ArrayList<BasicListAdapter.Entity>(mData));
     }

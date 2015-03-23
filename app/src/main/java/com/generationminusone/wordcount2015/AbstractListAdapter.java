@@ -1,6 +1,7 @@
 package com.generationminusone.wordcount2015;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -34,8 +35,10 @@ public abstract class AbstractListAdapter<V, K extends RecyclerView.ViewHolder> 
             V entity = data.get(i);
             int loc = getLocation(mData, entity);
             if (loc < 0) {
+                Log.d("Rob Debug", "About To addEntity: i = " + i + ", loc = " + loc);
                 addEntity(i, entity);
-            } else if (loc != i) {
+            }
+            else if (loc != i) {
                 moveEntity(i, loc);
 
             }
