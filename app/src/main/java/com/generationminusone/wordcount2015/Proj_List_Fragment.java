@@ -1,6 +1,8 @@
 package com.generationminusone.wordcount2015;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.fima.cardsui.objects.CardStack;
+import com.fima.cardsui.views.CardUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +33,14 @@ public class Proj_List_Fragment extends Fragment {
     FragmentManager fragManager;
     FragmentTransaction fragTransaction;
 
-    RecyclerView projRecyclerView;
-    private int mEntityCounter = 0;
-    private List<BasicListAdapter.Entity> mData;
-    private BasicListAdapter mBasicListAdapter;
+    private CardUI mCardView;
 
-    //LinearLayoutManager layoutManager;
+    // RecyclerView projRecyclerView; // TODO: Define ListView
+    private int mEntityCounter = 0;
+    private List<String> mData;
+    // private BasicListAdapter mBasicListAdapter; // TODO: Set up CursorAdapter
+
     Cursor projCursor;
-    //CursorRecyclerAdapter projAdapter;
-    //ArrayList<String> projects;
 
     private MyDBHandler dbHandler;
 
@@ -50,6 +54,33 @@ public class Proj_List_Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_proj_list, null);
         Log.d("Rob Debug", "Arrived in Proj_List_Fragment; inflating view");
 
+        // init CardView
+        mCardView = (CardUI) rootView.findViewById(R.id.cardsview);
+        mCardView.setSwipeable(true);
+
+        CardStack stack2 = new CardStack();
+        stack2.setTitle("REGULAR CARDS");
+        mCardView.addStack(stack2);
+
+        // add AndroidViews Cards
+        mCardView.addCard(new MyCard("Get the CardsUI view"));
+        mCardView.addCardToLastStack(new MyCard("for Android at"));
+        mCardView.addCard(new MyCard("Rob Test"));
+        MyCard androidViewsCard = new MyCard("www.androidviews.net");
+        androidViewsCard.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://www.androidviews.net/"));
+                startActivity(intent);
+
+            }
+        });
+
+        // draw cards
+        mCardView.refresh();
+
         dbHandler = new MyDBHandler(getActivity(), null, null, 1);
 
         ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
@@ -59,9 +90,9 @@ public class Proj_List_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         // Initialise RecyclerView
-        projRecyclerView = (RecyclerView) rootView.findViewById(R.id.proj_recycler_view);
-        projRecyclerView.setLayoutManager(getLayoutManager());
-        projRecyclerView.setAdapter(getAdapter());
+//        projRecyclerView = (RecyclerView) rootView.findViewById(R.id.proj_recycler_view);
+//        projRecyclerView.setLayoutManager(getLayoutManager());
+//        projRecyclerView.setAdapter(getAdapter());
 
         return rootView;
     }
@@ -90,18 +121,18 @@ public class Proj_List_Fragment extends Fragment {
         }
     }
 
-    private RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(getActivity());
-    }
+//    private RecyclerView.LayoutManager getLayoutManager() {
+//        return new LinearLayoutManager(getActivity());
+//    }
 
-    private RecyclerView.Adapter getAdapter() {
-        mBasicListAdapter = new BasicListAdapter(getActivity());
-        getProjects();
-        Log.d("Rob Debug","Finished getProjects() call");
-        mBasicListAdapter.setOnItemClickListener(new BasicListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BasicListAdapter.Entity entity) {
-                System.out.println("BasicListActivity.onItemClick entity : " + entity);
+//    private RecyclerView.Adapter getAdapter() {
+//        mBasicListAdapter = new BasicListAdapter(getActivity());
+//        getProjects();
+//        Log.d("Rob Debug","Finished getProjects() call");
+//        mBasicListAdapter.setOnItemClickListener(new BasicListAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BasicListAdapter.Entity entity) {
+//                System.out.println("BasicListActivity.onItemClick entity : " + entity);
 //                frag = new Proj_Info_Fragment();
 //                fragTransaction = getFragmentManager().beginTransaction();
 //                fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
@@ -109,27 +140,27 @@ public class Proj_List_Fragment extends Fragment {
 //                fragTransaction.replace(R.id.container, frag);
 //                fragTransaction.addToBackStack(null);
 //                fragTransaction.commit();
-            }
-        });
-        return mBasicListAdapter;
-    }
+//            }
+//        });
+//        return mBasicListAdapter;
+//    }
 
-    private void getProjects() {
-        Log.d("Rob Debug","About To Fetch Profiles");
-        Cursor projCursor = dbHandler.fetchAllProfiles(); //TODO: Do I need to set up a Loader for this cursor?
-
-        Log.d("Rob Debug","About To Initialise ArrayList");
-        // Construct an ArrayList containing Entities for BasicListAdapter to display in the RecyclerView;
-        mData = new ArrayList<BasicListAdapter.Entity>();
-        Log.d("Rob Debug","About To Populate ArrayList");
-        // While there's another record in the cursor...;
-        while(projCursor.moveToNext()) {
-            // Add to the ArrayList an Entity named the value of KEY_NAME from the database table;
-            String entityTitle = projCursor.getString(1);
-            Log.d("Rob Debug","entityTitle = " + entityTitle);
-            mData.add(new BasicListAdapter.Entity(entityTitle));
-        }
-        Log.d("Rob Debug","Finished Populating ArrayList");
+//    private void getProjects() {
+//        Log.d("Rob Debug","About To Fetch Profiles");
+//        Cursor projCursor = dbHandler.fetchAllProfiles(); //TODO: Do I need to set up a Loader for this cursor?
+//
+//        Log.d("Rob Debug","About To Initialise ArrayList");
+//        // Construct an ArrayList containing Entities for BasicListAdapter to display in the RecyclerView;
+//        mData = new ArrayList<BasicListAdapter.Entity>();
+//        Log.d("Rob Debug","About To Populate ArrayList");
+//        // While there's another record in the cursor...;
+//        while(projCursor.moveToNext()) {
+//            // Add to the ArrayList an Entity named the value of KEY_NAME from the database table;
+//            String entityTitle = projCursor.getString(1);
+//            Log.d("Rob Debug","entityTitle = " + entityTitle);
+//            mData.add(new BasicListAdapter.Entity(entityTitle));
+//        }
+//        Log.d("Rob Debug","Finished Populating ArrayList");
         // To delete items from ArrayList, use mData.remove;
 //        for (int i = 0; i < 15; ++i) {
 //            int r = (int) (Math.random() * mData.size());
@@ -142,6 +173,6 @@ public class Proj_List_Fragment extends Fragment {
 //            mData.add(r, new BasicListAdapter.Entity("Item " + (++mEntityCounter)));
 //        }
 
-        mBasicListAdapter.setData(new ArrayList<BasicListAdapter.Entity>(mData));
-    }
+//        mBasicListAdapter.setData(new ArrayList<BasicListAdapter.Entity>(mData));
+//    }
 }
