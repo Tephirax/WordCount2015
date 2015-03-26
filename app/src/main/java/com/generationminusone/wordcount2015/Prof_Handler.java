@@ -6,22 +6,74 @@ package com.generationminusone.wordcount2015;
  */
 public class Prof_Handler {
     private int _id;
-    private int _ranknum;
     private String _name;
+    private String _rank;
+    private int _ranknum;
+    private int _totalxp;
+    private int _totxptonext;
+    private int _xptonextrank;
+    private int _xplevelfloor;
+    private int _xptarget;
+    private int _totalwords;
+    private int _numofposts;
+    private int _numconsec;
+    private int _wctarget;
+    private int _active;
+    private String _lastposted;
+    private double _multiplier;
+    private int _dailywc;
+    private int _dailywcrem;
 
     public Prof_Handler() {
 
     }
 
-    public Prof_Handler(int id, int ranknum, String name) {
+    // Constructor with all variables attached
+    public Prof_Handler(int id, String name, String rank, int ranknum, int totalxp, int totxptonext,
+                        int xptonextrank, int xplevelfloor, int xptarget, int totalwords, int numofposts,
+                        int numconsec, int wctarget, int active, String lastposted, double multiplier,
+                        int dailywc, int dailywcrem) {
         this._id = id;
-        this._ranknum = ranknum;
         this._name = name;
+        this._rank = rank;
+        this._ranknum = ranknum;
+        this._totalxp = totalxp;
+        this._totxptonext = totxptonext;
+        this._xptonextrank = xptonextrank;
+        this._xplevelfloor = xplevelfloor;
+        this._xptarget = xptarget;
+        this._totalwords = totalwords;
+        this._numofposts = numofposts;
+        this._numconsec = numconsec;
+        this._wctarget = wctarget;
+        this._active = active;
+        this._lastposted = lastposted;
+        this._multiplier = multiplier;
+        this._dailywc = dailywc;
+        this._dailywcrem = dailywcrem;
     }
-
-    public Prof_Handler(String name, int ranknum) {
+    // Constructor for profile object where id hasn't yet been assigned (ie. to pass during creation)
+    public Prof_Handler(String name, String rank, int ranknum, int totalxp, int totxptonext,
+                        int xptonextrank, int xplevelfloor, int xptarget, int totalwords, int numofposts,
+                        int numconsec, int wctarget, int active, String lastposted, double multiplier,
+                        int dailywc, int dailywcrem) {
         this._name = name;
+        this._rank = rank;
         this._ranknum = ranknum;
+        this._totalxp = totalxp;
+        this._totxptonext = totxptonext;
+        this._xptonextrank = xptonextrank;
+        this._xplevelfloor = xplevelfloor;
+        this._xptarget = xptarget;
+        this._totalwords = totalwords;
+        this._numofposts = numofposts;
+        this._numconsec = numconsec;
+        this._wctarget = wctarget;
+        this._active = active;
+        this._lastposted = lastposted;
+        this._multiplier = multiplier;
+        this._dailywc = dailywc;
+        this._dailywcrem = dailywcrem;
     }
 
     public void setID(int id) {

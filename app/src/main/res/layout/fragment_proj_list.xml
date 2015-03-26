@@ -3,8 +3,8 @@
     android:layout_height="match_parent"
     tools:context="com.generationminusone.wordcount2015.Proj_List_Fragment">
 
-    <com.fima.cardsui.views.CardUI
-        android:id="@+id/cardsview"
+    <ListView
+        android:id="@+id/projListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

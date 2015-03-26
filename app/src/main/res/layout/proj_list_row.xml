@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/list1"
+    >
+    
+    <!-- Type Image -->
+    <ImageView
+  	  android:id="@+id/image1"
+	  android:layout_width="50dip"
+	  android:layout_height="50dip" 
+	  android:src="@drawable/stub" 
+	  android:scaleType="centerCrop"
+	  android:layout_alignParentTop="true"
+	  android:layout_alignParentLeft="true"/>
+  	
+  	<!-- Title Text -->
+	<TextView
+  	  android:id="@+id/text1"
+  	  android:layout_width="fill_parent"
+	  android:layout_height="20dip"
+	  android:layout_marginLeft="6dip"
+	  android:layout_alignParentTop="true"
+	  android:layout_toRightOf="@id/image1"
+	  android:ellipsize="end"
+	  android:singleLine="true"/>
+	
+	<!-- Type Text -->
+	<TextView
+	  android:id="@+id/type"
+  	  android:layout_width="wrap_content"
+	  android:layout_height="20dip"
+	  android:layout_marginLeft="6dip"
+	  android:layout_alignParentBottom="true"
+	  android:layout_toRightOf="@id/image1"/>
+	
+	<!-- Words -->
+	<TextView
+	  android:id="@+id/words"
+	  android:text="@string/words"
+	  android:layout_width="wrap_content"
+	  android:layout_height="20dip"
+	  android:layout_marginRight="10dip"
+	  android:layout_alignParentBottom="true"
+	  android:layout_alignParentRight="true"
+	  />
+
+	<!-- Total Expected Wordcount-->
+	<TextView
+	  android:id="@+id/text3"
+	  android:layout_width="wrap_content"
+	  android:layout_height="20dip"
+	  android:layout_marginRight="6dip"
+	  android:layout_alignParentBottom="true"
+	  android:layout_toLeftOf="@id/words"/>
+	
+	<!-- Of -->
+	<TextView
+	  android:id="@+id/of"
+	  android:text="@string/of"
+	  android:layout_width="wrap_content"
+	  android:layout_height="20dip"
+	  android:layout_marginRight="6dip"
+	  android:layout_alignParentBottom="true"
+	  android:layout_toLeftOf="@id/text3"
+	  />
+	 
+	<!-- Current Wordcount -->  
+	<TextView
+	  android:id="@+id/text2"
+	  android:layout_width="wrap_content"
+	  android:layout_height="20dip"
+	  android:layout_marginRight="6dip"
+	  android:layout_alignParentBottom="true"
+	  android:layout_toLeftOf="@id/of"/>
+	
+</RelativeLayout>
+

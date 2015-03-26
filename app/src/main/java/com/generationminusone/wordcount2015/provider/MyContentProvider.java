@@ -3,6 +3,7 @@ package com.generationminusone.wordcount2015.provider;
 import com.generationminusone.wordcount2015.MyDBHandler;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -29,18 +30,32 @@ public class MyContentProvider extends ContentProvider {
 
     // Expose database name/location
     public static final String AUTHORITY = "com.generationminusone.wordcount2015.provider.MyContentProvider";
-    private static final String PROFILE_TABLE = "profile";
-    public static final Uri CONTENT_URI_PROFILE = Uri.parse("content://" + AUTHORITY + "/" + PROFILE_TABLE);
-
+    private static final String TABLE_PROFILES = "profiles";
+    private static final String TABLE_PROJECTS = "projects";
+    private static final String TABLE_ACHIEVEMENTS = "achievements";
+    public static final Uri CONTENT_URI_PROFILES = Uri.parse("content://" + AUTHORITY + "/" + TABLE_PROFILES);
+    public static final Uri CONTENT_URI_PROJECTS = Uri.parse("content://" + AUTHORITY + "/" + TABLE_PROJECTS);
+    public static final Uri CONTENT_URI_ACHIEVEMENTS = Uri.parse("content://" + AUTHORITY + "/" + TABLE_ACHIEVEMENTS);
     // Create integers for use in UriMatcher;
     public static final int PROFILES = 1;
     public static final int PROFILE_ID = 2;
+    public static final int PROJECTS = 11;
+    public static final int PROJECT_ID = 12;
+    public static final int ACHIEVEMENTS = 21;
+    public static final int ACHIEVEMENT_ID = 22;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        sURIMatcher.addURI(AUTHORITY, PROFILE_TABLE, PROFILES);
-        sURIMatcher.addURI(AUTHORITY, PROFILE_TABLE + "/#", PROFILE_ID);
+        // Profiles
+        sURIMatcher.addURI(AUTHORITY, TABLE_PROFILES, PROFILES);
+        sURIMatcher.addURI(AUTHORITY, TABLE_PROFILES + "/#", PROFILE_ID);
+        // Projects
+        sURIMatcher.addURI(AUTHORITY, TABLE_PROJECTS, PROJECTS);
+        sURIMatcher.addURI(AUTHORITY, TABLE_PROJECTS + "/#", PROJECT_ID);
+        // Achievements
+        sURIMatcher.addURI(AUTHORITY, TABLE_ACHIEVEMENTS, ACHIEVEMENTS);
+        sURIMatcher.addURI(AUTHORITY, TABLE_ACHIEVEMENTS + "/#", ACHIEVEMENT_ID);
     }
     // UriMatcher will now return the value of PROFILES (ie. 1) when just the products table is referenced in a URI,
     // and PROFILE_ID (ie. 2) when the URI includes the ID of a specific row in the table.
@@ -58,7 +73,7 @@ public class MyContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(MyDBHandler.TABLE_PROFILE);
+        queryBuilder.setTables(MyDBHandler.TABLE_PROFILES);
 
         int uriType = sURIMatcher.match(uri);
 
@@ -66,7 +81,17 @@ public class MyContentProvider extends ContentProvider {
             case PROFILES:
                 break;
             case PROFILE_ID:
-                queryBuilder.appendWhere(MyDBHandler.KEY_ID + "=" + uri.getLastPathSegment());
+                queryBuilder.appendWhere(MyDBHandler.KEY_ROWIDPROF + "=" + uri.getLastPathSegment());
+                break;
+            case PROJECTS:
+                break;
+            case PROJECT_ID:
+                queryBuilder.appendWhere(MyDBHandler.KEY_ROWIDPROJ + "=" + uri.getLastPathSegment());
+                break;
+            case ACHIEVEMENTS:
+                break;
+            case ACHIEVEMENT_ID:
+                queryBuilder.appendWhere(MyDBHandler.KEY_ROWIDACH + "=" + uri.getLastPathSegment());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");
@@ -89,40 +114,94 @@ public class MyContentProvider extends ContentProvider {
 
         SQLiteDatabase sqlDB = myDB.getWritableDatabase();
 
-        long id = 0;
+        long id;
+        Uri _uri = null;
+
         switch (uriType) {
             case PROFILES:
-                id = sqlDB.insert(MyDBHandler.TABLE_PROFILE, null, values);
+                id = sqlDB.insert(MyDBHandler.TABLE_PROFILES, null, values);
+                //---if added successfully---//
+                if (id > 0) {
+                    _uri = ContentUris.withAppendedId(CONTENT_URI_PROFILES, id);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                }
+                break;
+            case PROJECTS:
+                id = sqlDB.insert(MyDBHandler.TABLE_PROJECTS, null, values);
+                //---if added successfully---//
+                if (id > 0) {
+                    _uri = ContentUris.withAppendedId(CONTENT_URI_PROJECTS, id);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                }
+                break;
+            case ACHIEVEMENTS:
+                id = sqlDB.insert(MyDBHandler.TABLE_ACHIEVEMENTS, null, values);
+                //---if added successfully---//
+                if (id > 0) {
+                    _uri = ContentUris.withAppendedId(CONTENT_URI_ACHIEVEMENTS, id);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
-        getContext().getContentResolver().notifyChange(uri, null);
-        return Uri.parse(PROFILE_TABLE + "/" + id);
+        return _uri;
     }
 
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = myDB.getWritableDatabase();
-        int rowsDeleted = 0;
+        int rowsDeleted;
+        String id;
 
         switch (uriType) {
             case PROFILES:
-                rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILE,
+                rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILES,
                         selection,
                         selectionArgs);
                 break;
             case PROFILE_ID:
-                String id = uri.getLastPathSegment();
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILE,
-                            MyDBHandler.KEY_ID + "=" + id,
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILES,
+                            MyDBHandler.KEY_ROWIDPROF + "=" + id,
                             null);
                 } else {
-                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILE,
-                            MyDBHandler.KEY_ID + "=" + id + " and " + selection,
-                            selectionArgs);
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROFILES,
+                            MyDBHandler.KEY_ROWIDPROF + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case PROJECTS:
+                rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROJECTS,
+                        selection,
+                        selectionArgs);
+                break;
+            case PROJECT_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROJECTS,
+                            MyDBHandler.KEY_ROWIDPROJ + "=" + id,
+                            null);
+                } else {
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_PROJECTS,
+                            MyDBHandler.KEY_ROWIDPROJ + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case ACHIEVEMENTS:
+                rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_ACHIEVEMENTS,
+                        selection,
+                        selectionArgs);
+                break;
+            case ACHIEVEMENT_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_ACHIEVEMENTS,
+                         MyDBHandler.KEY_ROWIDACH + "=" + id,
+                         null);
+                } else {
+                    rowsDeleted = sqlDB.delete(MyDBHandler.TABLE_ACHIEVEMENTS,
+                                  MyDBHandler.KEY_ROWIDACH + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
             default:
@@ -136,27 +215,68 @@ public class MyContentProvider extends ContentProvider {
 
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = myDB.getWritableDatabase();
-        int rowsUpdated = 0;
+        int rowsUpdated;
+        String id;
 
         switch (uriType) {
             case PROFILES:
-                rowsUpdated = sqlDB.update(MyDBHandler.TABLE_PROFILE,
-                        values,
-                        selection,
-                        selectionArgs);
+                rowsUpdated = sqlDB.update(MyDBHandler.TABLE_PROFILES,
+                         values,
+                         selection,
+                         selectionArgs);
                 break;
             case PROFILE_ID:
-                String id = uri.getLastPathSegment();
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROFILE,
-                                    values,
-                                    MyDBHandler.KEY_ID + "=" + id,
-                                    null);
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROFILES,
+                              values,
+                              MyDBHandler.KEY_ROWIDPROF + "=" + id,
+                              null);
                 } else {
-                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROFILE,
-                                    values,
-                                    MyDBHandler.KEY_ID + "=" + id + " and " + selection,
-                                    selectionArgs);
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROFILES,
+                               values,
+                               MyDBHandler.KEY_ROWIDPROF + "=" + id + " and " + selection,
+                               selectionArgs);
+                }
+                break;
+            case PROJECTS:
+                rowsUpdated = sqlDB.update(MyDBHandler.TABLE_PROJECTS,
+                          values,
+                          selection,
+                          selectionArgs);
+                break;
+            case PROJECT_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROJECTS,
+                               values,
+                               MyDBHandler.KEY_ROWIDPROJ + "=" + id,
+                               null);
+                } else {
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_PROJECTS,
+                               values,
+                               MyDBHandler.KEY_ROWIDPROJ + "=" + id + " and " + selection,
+                               selectionArgs);
+                }
+                break;
+            case ACHIEVEMENTS:
+                rowsUpdated = sqlDB.update(MyDBHandler.TABLE_ACHIEVEMENTS,
+                          values,
+                          selection,
+                          selectionArgs);
+                break;
+            case ACHIEVEMENT_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_ACHIEVEMENTS,
+                               values,
+                               MyDBHandler.KEY_ROWIDACH + "=" + id,
+                               null);
+                } else {
+                    rowsUpdated =   sqlDB.update(MyDBHandler.TABLE_ACHIEVEMENTS,
+                               values,
+                               MyDBHandler.KEY_ROWIDACH + "=" + id + " and " + selection,
+                               selectionArgs);
                 }
                 break;
             default:
@@ -165,5 +285,4 @@ public class MyContentProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsUpdated;
     }
-
 }

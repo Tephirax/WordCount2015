@@ -3,9 +3,84 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">CardsUI</string>
-    <string name="title">Title</string>
-    <string name="desc">Description</string>
-    <string name="overflow">Menu Overflow</string>
-    <string name="color_stripe">Color Stripe</string>
+
+    <string name="hello">This is where the list of projects will be</string>
+    <string name="add_proj">New Project</string>
+    <string name="del_proj">Delete Project</string>
+    <string name="proj_detail">Project Details</string>
+    <string name="proj_detailc">Create New Project</string>
+    <string name="title">Title:</string>
+    <string name="type">Type:</string>
+    <string name="wordcount">Current Wordcount:</string>
+    <string name="total">Total Expected Wordcount:</string>
+    <string name="datestart">Date Started:</string>
+    <string name="datecomplete">Completed?</string>
+    <string name="submitted">Submitted?</string>
+    <string name="accepted">Accepted?</string>
+    <string name="confirm">Save</string>
+    <string name="no_proj">No Projects Found. </string>
+    <string name="no_prof">No Profiles Yet</string>
+    <string name="no_ach">Error: Unable to find Medals. Please restart application.</string>
+    <string name="name">Name</string>
+    <string name="sex">Sex</string>
+    <string name="targetwordcount">Daily Target:</string>
+    <string name="rank">Level </string>
+    <string name="rankname">Rank: </string>
+    <string name="ranknum">Level: </string>
+    <string name="totalxp">Total XP: </string>
+    <string name="xptonextrank">XP to next rank: </string>
+    <string name="totalwords">Total Wordcount: </string>
+    <string name="active">Active Profile? </string>
+    <string name="addwordcount">Add Word Count</string>
+    <string name="submit">Submit</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="settarget">Set Target</string>
+    <string name="projinprogress">In Progress</string>
+    <string name="projcompleted">Completed</string>
+    <string name="projall">All</string>
+    <string name="createproject">Create New Project</string>
+    <string name="editproject">Edit Project</string>
+    <string name="createprofile">Create New Profile</string>
+    <string name="manageprofile">Manage Profile</string>
+    <string name="of">of</string>
+    <string name="words">words</string>
+    <string name="back">Back</string>
+    <string name="achieveall">All Achievements"</string>
+    <string name="achievegot">Achievements Completed</string>
+    <string name="achieveneed">Achievements Available</string>
+    <string name="projects">Projects</string>
+
+    <string name="add_prof">New Profile</string>
+    <string name="del_prof">Delete Profile</string>
+    <string name="prof_detail">Profile Details</string>
+    <string name="prof_detailc">Create New Profile</string>
+    <string name="switch_prof">Switch Profile</string>
+    <string name="profallt">Available Profiles</string>
+    <string name="projallt">All Projects</string>
+    <string name="projinprogt">Projects in Progress</string>
+    <string name="projcompt">Completed Projects</string>
+
+    <string name="type_spinner"></string>
+    <string-array name="type_array">
+        <item>Novel</item>
+        <item>Novella</item>
+        <item>Short Story</item>
+        <item>Flash</item>
+        <item>Other</item>
+    </string-array>
+    <string name="sex_spinner"></string>
+    <string-array name="sex_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <!-- Temporary naming for front page -->
+    <string name="profile">Profile Name: </string>
+    <string name="masterwordcount">Total Wordcount: </string>
+    <string name="masterxp">Total EXP: </string>
+    <string name="multiplier">Multiplier: </string>
+    <string name="updatexp">Update XP</string>
+    <string name="temp">Temp Title</string>
+
 </resources>

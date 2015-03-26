@@ -1,11 +1,13 @@
 package com.generationminusone.wordcount2015;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,66 +17,43 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class Prof_List_Fragment extends Fragment {
+public class Prof_List_Fragment extends Fragment implements AdapterView.OnItemClickListener {
 
     Fragment frag;
     FragmentManager fragManager;
     FragmentTransaction fragTransaction;
+    public Long mRowId;
 
-    TextView idView;
-    EditText nameBox;
-    EditText rankBox;
+    Cursor projCursor;
+
+    private MyDBHandler dbHandler;
 
     public Prof_List_Fragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_prof_list, null);
         Log.d("Rob Debug", "Arrived in Prof_List_Fragment; inflating view");
 
-        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        dbHandler = new MyDBHandler(getActivity(), null, null, 1);
+
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
         setHasOptionsMenu(true);
 
-        idView = (TextView) rootView.findViewById(R.id.profile_ID);
-        nameBox = (EditText) rootView.findViewById(R.id.profile_name);
-        rankBox = (EditText) rootView.findViewById(R.id.rankNum);
-
-        Button btnAdd = (Button) rootView.findViewById(R.id.button1);
-        Button btnFind = (Button) rootView.findViewById(R.id.button2);
-        Button btnDelete = (Button) rootView.findViewById(R.id.button3);
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Rob Debug","About to call newProfile");
-                newProfile(v);
-            }
-        });
-        btnFind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lookupProfile(v);
-            }
-        });
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeProfile(v);
-            }
-        });
-
+        getProfiles(rootView);
         return rootView;
-
     }
 
     @Override
@@ -97,50 +76,45 @@ public class Prof_List_Fragment extends Fragment {
                 }
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
         }
     }
 
-    public void newProfile (View view) {
-        Log.d("Rob Debug","About to call MyDBHandler");
-        MyDBHandler dbHandler = new MyDBHandler(getActivity().getApplicationContext(), null, null, 1);
+    private void getProfiles(View v) {
+        Log.d("Rob Debug","About To Fetch Profiles");
+        Cursor profCursor = dbHandler.fetchAllProfiles(); //TODO: Do I need to set up a Loader for this cursor?
 
-        int ranknum = Integer.parseInt(rankBox.getText().toString());
+        Log.d("Rob Debug","About To Initialise Array");
+        // Create an array to specify the fields we want to display in the list
+        String[] from = new String[]{dbHandler.KEY_NAME, dbHandler.KEY_RANKNUM};
 
-        Prof_Handler profile = new Prof_Handler(nameBox.getText().toString(), ranknum);
+        // and an array of the fields from proj_list_row we want to bind those fields to
+        int[] to = new int[]{R.id.text1, R.id.text2};
 
-        dbHandler.addProfile(profile);
-        nameBox.setText("");
-        rankBox.setText("");
+        // Now create a simple cursor adapter and set it to display
+        SimpleCursorAdapter prof = new SimpleCursorAdapter(getActivity(), R.layout.prof_list_row, profCursor, from, to, 0);
+        // RH Note: Refer back to MyCursorAdapter implementation in WordCount2013 for advanced functionality
+        // If you use it, you'll need to add the 0 final argument to the MyCursorAdapter constructor to avoid deprecation
+
+        ListView profListView = (ListView) v.findViewById(R.id.profListView);
+        Log.d("Rob Debug","About To Set List Adapter");
+        profListView.setAdapter(prof);
+        Log.d("Rob Debug","List Adapter Set");
+        profListView.setOnItemClickListener(this);
+
+        Log.d("Rob Debug","onClickListener Set");
     }
 
-    public void lookupProfile (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(getActivity().getApplicationContext(), null, null, 1);
-
-        Prof_Handler profile = dbHandler.findProfile(nameBox.getText().toString());
-
-        if (profile != null) {
-            idView.setText(String.valueOf(profile.getID()));
-
-            rankBox.setText(String.valueOf(profile.getRanknum()));
-        } else {
-            idView.setText("No Match Found");
-        }
-    }
-
-    public void removeProfile (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(getActivity().getApplicationContext(), null, null, 1);
-
-        boolean result = dbHandler.deleteProfile(
-                nameBox.getText().toString());
-
-        if (result)
-        {
-            idView.setText("Record Deleted");
-            nameBox.setText("");
-            rankBox.setText("");
-        }
-        else
-            idView.setText("No Match Found");
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ((Main_Activity)getActivity()).profID = id;
+        frag = new Prof_Detail_Fragment();
+        fragTransaction = getFragmentManager().beginTransaction();
+        fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+        R.anim.pop_slide_in_left, R.anim.pop_slide_in_right);
+        fragTransaction.replace(R.id.container, frag);
+        fragTransaction.addToBackStack(null);
+        fragTransaction.commit();
     }
 }
+
