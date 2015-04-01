@@ -46,6 +46,12 @@ public class Prof_List_Fragment extends Fragment implements AdapterView.OnItemCl
 
         dbHandler = new MyDBHandler(getActivity(), null, null, 1);
 
+        // If no profiles exist, go immediately to Create Profile fragment;
+        int count = dbHandler.countAllProfiles();
+        if (count == 0) {
+            goToCreateProfile();
+        }
+
         ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
@@ -80,13 +86,21 @@ public class Prof_List_Fragment extends Fragment implements AdapterView.OnItemCl
         }
     }
 
+    private void goToCreateProfile() {
+        frag = new Prof_Detail_Fragment();
+        fragTransaction = getFragmentManager().beginTransaction();
+        fragTransaction.replace(R.id.container, frag);
+        fragTransaction.addToBackStack(null);
+        fragTransaction.commit();
+    }
+
     private void getProfiles(View v) {
         Log.d("Rob Debug","About To Fetch Profiles");
         Cursor profCursor = dbHandler.fetchAllProfiles(); //TODO: Do I need to set up a Loader for this cursor?
 
         Log.d("Rob Debug","About To Initialise Array");
         // Create an array to specify the fields we want to display in the list
-        String[] from = new String[]{dbHandler.KEY_NAME, dbHandler.KEY_RANKNUM};
+        String[] from = new String[]{dbHandler.KEY_PROFILENAME, dbHandler.KEY_RANKNUM};
 
         // and an array of the fields from proj_list_row we want to bind those fields to
         int[] to = new int[]{R.id.text1, R.id.text2};
@@ -94,6 +108,7 @@ public class Prof_List_Fragment extends Fragment implements AdapterView.OnItemCl
         // Now create a simple cursor adapter and set it to display
         SimpleCursorAdapter prof = new SimpleCursorAdapter(getActivity(), R.layout.prof_list_row, profCursor, from, to, 0);
         // RH Note: Refer back to MyCursorAdapter implementation in WordCount2013 for advanced functionality
+        // (eg. highlighting & flagging Active Profile)
         // If you use it, you'll need to add the 0 final argument to the MyCursorAdapter constructor to avoid deprecation
 
         ListView profListView = (ListView) v.findViewById(R.id.profListView);
@@ -107,7 +122,7 @@ public class Prof_List_Fragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((Main_Activity)getActivity()).profID = id;
+        ((Main_Activity)getActivity()).profId = id;
         frag = new Prof_Detail_Fragment();
         fragTransaction = getFragmentManager().beginTransaction();
         fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,

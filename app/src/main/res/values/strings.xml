@@ -22,8 +22,8 @@
     <string name="no_prof">No Profiles Yet</string>
     <string name="no_ach">Error: Unable to find Medals. Please restart application.</string>
     <string name="name">Name</string>
-    <string name="sex">Sex</string>
-    <string name="targetwordcount">Daily Target:</string>
+    <string name="targetwordcount">Daily Wordcount Target:</string>
+    <string name="targeteditcount">Daily Editing Target:</string>
     <string name="rank">Level </string>
     <string name="rankname">Rank: </string>
     <string name="ranknum">Level: </string>
@@ -61,6 +61,10 @@
     <string name="projinprogt">Projects in Progress</string>
     <string name="projcompt">Completed Projects</string>
 
+    <string name="savechanges">Save Changes?</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+
     <string name="type_spinner"></string>
     <string-array name="type_array">
         <item>Novel</item>
@@ -69,10 +73,11 @@
         <item>Flash</item>
         <item>Other</item>
     </string-array>
-    <string name="sex_spinner"></string>
-    <string-array name="sex_array">
-        <item>Male</item>
-        <item>Female</item>
+    <string name="unit_spinner"></string>
+    <string-array name="unit_array">
+        <item>words</item>
+        <item>pages</item>
+        <item>scenes</item>
     </string-array>
 
     <!-- Temporary naming for front page -->
@@ -82,5 +87,8 @@
     <string name="multiplier">Multiplier: </string>
     <string name="updatexp">Update XP</string>
     <string name="temp">Temp Title</string>
+
+    <!-- Rank names -->
+    <string name="rank1">Wordmonkey</string>
 
 </resources>

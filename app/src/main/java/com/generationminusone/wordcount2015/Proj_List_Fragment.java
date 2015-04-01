@@ -120,7 +120,7 @@ public class Proj_List_Fragment extends Fragment implements AdapterView.OnItemCl
 
         Log.d("Rob Debug","About To Initialise Array");
         // Create an array to specify the fields we want to display in the list
-        String[] from = new String[]{dbHandler.KEY_NAME, dbHandler.KEY_RANKNUM};
+        String[] from = new String[]{dbHandler.KEY_PROFILENAME, dbHandler.KEY_RANKNUM};
 
         // and an array of the fields from proj_list_row we want to bind those fields to
         int[] to = new int[]{R.id.text1, R.id.text2};
@@ -141,7 +141,7 @@ public class Proj_List_Fragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((Main_Activity)getActivity()).projID = id;
+        ((Main_Activity)getActivity()).projId = id;
         frag = new Proj_Detail_Fragment();
         fragTransaction = getFragmentManager().beginTransaction();
         fragTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,

@@ -24,7 +24,7 @@ public class Proj_Detail_Fragment extends Fragment {
     Fragment frag;
     FragmentManager fragManager;
     FragmentTransaction fragTransaction;
-    public Long projid;
+    public Long mRowId;
 
     Cursor projCursor;
 
@@ -49,11 +49,11 @@ public class Proj_Detail_Fragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        projid = ((Main_Activity)getActivity()).mRowId;
+        mRowId = ((Main_Activity)getActivity()).projId;
 
         name1 = (TextView) rootView.findViewById(R.id.name);
-        Log.d("Rob Debug", "About To Get Project Info for row " + String.valueOf(projid));
-        getProjectInfo(rootView, projid);
+        Log.d("Rob Debug", "About To Get Project Info for row " + String.valueOf(mRowId));
+        getProjectInfo(rootView, mRowId);
         return rootView;
     }
 

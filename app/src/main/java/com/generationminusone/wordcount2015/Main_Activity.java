@@ -14,8 +14,8 @@ import android.view.MenuItem;
 public class Main_Activity extends ActionBarActivity {
 
     private MyDBHandler dbHandler;
-    public Long profID;
-    public Long projID;
+    public Long profId;
+    public Long projId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
